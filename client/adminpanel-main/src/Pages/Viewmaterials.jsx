@@ -1,7 +1,62 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 import { FaFilter } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 export default function Viewmaterials() {
+    let [materialList, setMaterialList] = useState([])
+    let apiBaseUrl = import.meta.env.VITE_APIBASEURL //http://localhost:8000/admin/
+    let [ids,setIds]=useState([])
+
+    let getMaterials = () => {
+        axios.get(`${apiBaseUrl}material/view`)
+            .then((res) => res.data)
+            .then((finalRes) => {
+                setMaterialList(finalRes.data)
+            })
+    }
+
+    useEffect(() => {
+        getMaterials()
+    }, [])
+
+
+    let getAllCheckedvalue=(event)=>{
+
+        if(event.target.checked && !ids.includes(event.target.value) ){
+            setIds([...ids,event.target.value])
+        }
+        else{
+            // let filnalArray=ids.filter((v)=>v!=event.target.value)
+            setIds(ids.filter((v)=>v!=event.target.value))
+        }
+
+    }
+
+    let deleteMaterial=()=>{
+        axios.post(`${apiBaseUrl}material/delete`,{ids})
+        .then((res)=>res.data)
+        .then((finaLres)=>{
+            console.log(finaLres)
+            getMaterials()
+            setIds([])
+        })
+    }
+
+    let changeStatus=()=>{
+        axios.post(`${apiBaseUrl}material/change-status`,{ids})
+        .then((res)=>res.data)
+        .then((finaLres)=>{
+            console.log(finaLres)
+            getMaterials()
+            setIds([])
+        })
+    }
+
+
+    useEffect(()=>{
+        console.log(ids)
+    },[ids])
+
     return (
         <>
             <section className='mt-5 max-w-full rounded-md  ' style={{ border: "1px solid #ccc" }} id='viewCategory'>
@@ -13,8 +68,8 @@ export default function Viewmaterials() {
                         <div className='text-white font-bold w-[40px] h-[40px] rounded-sm flex justify-center items-center bg-blue-700'>
                             <FaFilter className='' />
                         </div>
-                        <button className='bg-green-700 rounded-sm py-2 px-4 font-semibold text-sm text-white'>Change Status</button>
-                        <button className='bg-red-700 rounded-sm py-2.5 px-5 font-semibold text-sm text-white'>Delete</button>
+                        <button className='bg-green-700 rounded-sm py-2 px-4 font-semibold text-sm text-white' onClick={changeStatus}>Change Status</button>
+                        <button className='bg-red-700 rounded-sm py-2.5 px-5 font-semibold text-sm text-white' onClick={deleteMaterial}>Delete</button>
                     </div>
                 </div>
                 <div className='form px-4 '>
@@ -35,18 +90,50 @@ export default function Viewmaterials() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className='bg-white  border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600'>
-                                <td className='w-[3%] py-7'>
-                                    <input type="checkbox" className='w-4 h-4' name="" id="" />
-                                </td>
-                                <td className='text-base font-semibold text-black '>Neil Sims</td>
+                            {
+                                materialList.length >= 1
+                                    ?
+                                    materialList.map((item, index) => {
+                                        return (
+                                            <tr className='bg-white  border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600'>
+                                                <td className='w-[3%] py-7'>
+ <input onChange={getAllCheckedvalue}  checked={ ids.includes(item._id) }   type="checkbox" value={item._id} className='w-4 h-4' name="" id="" />
 
-                                <td className='text-start'>1</td>
-                                <td className=''><button className=' bg-gradient-to-r from-green-400 via-green-500 to-green-600 py-1.5 text-white font-semibold px-5 rounded-sm'>Active</button></td>
-                                <td><button className=' flex justify-center items-center text-white bg-blue-500 w-[40px] h-[40px] rounded-[50%]'>
-                                    <MdEdit className='text-[18px]' />
-                                </button></td>
-                            </tr>
+
+
+
+                                                </td>
+                                                <td className='text-base font-semibold text-black '> {item.materialName} </td>
+
+                                                <td className='text-start'>  {item.materialOrder} </td>
+                                                <td className=''>
+                                                {item.materialStatus
+                                                    ?
+                                                    <button className=' bg-gradient-to-r from-green-400 via-green-500 to-green-600 py-1.5 text-white font-semibold px-5 rounded-sm'>Active</button>
+                                                    :
+                                                    <button className=' bg-gradient-to-r from-red-400 via-red-500 to-red-600 py-1.5 text-white font-semibold px-5 rounded-sm'>DeActive</button>
+                                                
+                                                
+                                                } 
+                                                   </td>
+                                                <td>
+                                                    
+                                                    <button className=' flex justify-center items-center text-white bg-blue-500 w-[40px] h-[40px] rounded-[50%]'>
+                                                    <MdEdit className='text-[18px]' />
+
+                                                    
+                                                </button></td>
+                                            </tr>
+                                        )
+                                    })
+                                    :
+
+                                    <tr>
+                                        <td colSpan={6}>No List Found</td>
+                                    </tr>
+                            }
+
+
                         </tbody>
                     </table>
                 </div>

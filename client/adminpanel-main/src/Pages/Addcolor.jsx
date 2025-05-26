@@ -8,6 +8,9 @@ export default function Addcolor() {
   const handleChangeComplete = (newColor) => {
     setColor(newColor.hex);
   };
+
+
+  
   return (
     <>
       <section className='mt-5 max-w-full rounded-md  ' style={{ border: "1px solid #ccc" }} id='addColor'>
