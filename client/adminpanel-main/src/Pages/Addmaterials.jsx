@@ -1,9 +1,15 @@
 import axios from 'axios'
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router';
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router';
 
 import { ToastContainer, toast } from 'react-toastify';
 export default function Addmaterials() {
+   // {id: 68349b6d4839b8e8f61e41f4}
+   let {id}=useParams() //68349b674839b8e8f61e41f1
+
+
+   
+
     let navigate=useNavigate()
     let [formValue,setFormValue]=useState(
         {
@@ -21,23 +27,72 @@ export default function Addmaterials() {
         // }
 
         //formValue Object - >State //{materialName:'Welcome',materialOrder:'3' }
-       axios.post(`${apiBaseUrl}material/insert`,formValue)
-       .then((res)=>res.data)
-       .then((finalRes)=>{
-            if(finalRes.status){
-                toast.success(finalRes.mgs)
-                setFormValue({materialName:'',materialOrder:''})
-                setTimeout(()=>{
-                    navigate('/viewmaterial')
-                },2000)
-               
-            }
-            else{
-                toast.error(finalRes.mgs)
-            }
-           
-       })
+       
+        if(id){
+                //Update
+                axios.put(`${apiBaseUrl}material/update/${id}`,formValue)
+                .then((res)=>res.data)
+                .then((finalRes)=>{
+                    if(finalRes.status){
+                        toast.success(finalRes.mgs)
+                        setFormValue({materialName:'',materialOrder:''})
+                        setTimeout(()=>{
+                            navigate('/viewmaterial')
+                        },2000)
+                        
+                    }
+                    else{
+                        toast.error(finalRes.mgs)
+                    }
+                    
+                })
+        }
+        else{
+            
+            axios.post(`${apiBaseUrl}material/insert`,formValue)
+            .then((res)=>res.data)
+            .then((finalRes)=>{
+                if(finalRes.status){
+                    toast.success(finalRes.mgs)
+                    setFormValue({materialName:'',materialOrder:''})
+                    setTimeout(()=>{
+                        navigate('/viewmaterial')
+                    },2000)
+                    
+                }
+                else{
+                    toast.error(finalRes.mgs)
+                }
+                
+            })
+        }
+       
     }
+
+    useEffect(()=>{
+
+        setFormValue({
+            materialName:'',
+            materialOrder:'',
+        })
+
+
+        if(id){ //68349b674839b8e8f61e41f1
+            axios.get(`${apiBaseUrl}material/edit-row-data/${id}`)
+            .then((res)=>res.data)
+            .then((finalRes)=>{
+                console.log(finalRes.data)
+                setFormValue({
+                    materialName:finalRes.data.materialName,
+                    materialOrder:finalRes.data.materialOrder,
+                })
+            })
+        }
+    },[id])
+
+
+
+
     return (
         <>
         <ToastContainer/>
@@ -50,6 +105,7 @@ export default function Addmaterials() {
                         <label htmlFor="" className='text-[16px] font-semibold'>Material Name</label>
                         <input type="text"
                          value={formValue.materialName}
+
                          
                          onChange={
                             (e)=> {
@@ -76,9 +132,11 @@ export default function Addmaterials() {
                         }
                         type="number"
                         
-                        value={formValue.materialOrder} placeholder='Enter Order' name="materialOrder" id="" className='text-sm w-full border-2 shadow-sm border-gray-300 h-[40px] p-2 rounded-sm mt-1' />
+                        value={formValue.materialOrder}
+                        
+                        placeholder='Enter Order' name="materialOrder" id="" className='text-sm w-full border-2 shadow-sm border-gray-300 h-[40px] p-2 rounded-sm mt-1' />
 
-                        <button className='text-white bg-purple-700 border-0 my-5 rounded-sm p-2'>Add Material</button>
+                        <button className='text-white bg-purple-700 border-0 my-5 rounded-sm p-2'> { id ? "Update" : "Add"}  Material</button>
                     </form>
 
                 </div>

@@ -73,7 +73,7 @@ export default function Home() {
 
                                         let { id, title, icon, innerIcon, innerTitle, link1, link2, innerTitle2 } = value
 
-                                        console.log(value)
+                                      
                                         return (
                                             <div className='maniItems'>
                                                 <li className='flex items-center gap-2 cursor-pointer  hover:bg:rounded-2xl py-2 text-black font-medium lg:text-lg sm:text-sm' >

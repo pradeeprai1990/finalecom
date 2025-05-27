@@ -48,8 +48,17 @@ createRoot(document.getElementById('root')).render(
         <Route path='/newslatter' element={<Newslatter />} />
         <Route path='/addcolor' element={<Addcolor />} />
         <Route path='/viewcolor' element={<Viewcolor />} />
+
+        {/* //material */}
+
         <Route path='/addmaterial' element={<Addmaterials />} />
+        <Route path='/editmaterial/:id' element={<Addmaterials />} />
         <Route path='/viewmaterial' element={<Viewmaterials />} />
+
+        
+
+
+
         <Route path='/addcategory' element={<Addcategory />} />
         <Route path='/viewcategory' element={<Viewcategory />} />
         <Route path='/addsubcategory' element={<AddSubCategory />} />

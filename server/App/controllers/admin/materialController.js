@@ -68,7 +68,7 @@ let materialmultiDelete=async (req,res)=>{
 
 let updatematerial=async (req,res)=>{
     let {id}=req.params;
-    let {materialName,materialCode,materialStatus,materialOrder}=req.body
+    let {materialName,materialOrder}=req.body
 
     let updObj={
         materialName,

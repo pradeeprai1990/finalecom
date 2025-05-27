@@ -2,10 +2,11 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { FaFilter } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
+import { Link } from 'react-router';
 export default function Viewmaterials() {
     let [materialList, setMaterialList] = useState([])
     let apiBaseUrl = import.meta.env.VITE_APIBASEURL //http://localhost:8000/admin/
-    let [ids,setIds]=useState([])
+    let [ids, setIds] = useState([])
 
     let getMaterials = () => {
         axios.get(`${apiBaseUrl}material/view`)
@@ -20,42 +21,42 @@ export default function Viewmaterials() {
     }, [])
 
 
-    let getAllCheckedvalue=(event)=>{
+    let getAllCheckedvalue = (event) => {
 
-        if(event.target.checked && !ids.includes(event.target.value) ){
-            setIds([...ids,event.target.value])
+        if (event.target.checked && !ids.includes(event.target.value)) {
+            setIds([...ids, event.target.value])
         }
-        else{
+        else {
             // let filnalArray=ids.filter((v)=>v!=event.target.value)
-            setIds(ids.filter((v)=>v!=event.target.value))
+            setIds(ids.filter((v) => v != event.target.value))
         }
 
     }
 
-    let deleteMaterial=()=>{
-        axios.post(`${apiBaseUrl}material/delete`,{ids})
-        .then((res)=>res.data)
-        .then((finaLres)=>{
-            console.log(finaLres)
-            getMaterials()
-            setIds([])
-        })
+    let deleteMaterial = () => {
+        axios.post(`${apiBaseUrl}material/delete`, { ids })
+            .then((res) => res.data)
+            .then((finaLres) => {
+                console.log(finaLres)
+                getMaterials()
+                setIds([])
+            })
     }
 
-    let changeStatus=()=>{
-        axios.post(`${apiBaseUrl}material/change-status`,{ids})
-        .then((res)=>res.data)
-        .then((finaLres)=>{
-            console.log(finaLres)
-            getMaterials()
-            setIds([])
-        })
+    let changeStatus = () => {
+        axios.post(`${apiBaseUrl}material/change-status`, { ids })
+            .then((res) => res.data)
+            .then((finaLres) => {
+                console.log(finaLres)
+                getMaterials()
+                setIds([])
+            })
     }
 
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(ids)
-    },[ids])
+    }, [ids])
 
     return (
         <>
@@ -97,7 +98,7 @@ export default function Viewmaterials() {
                                         return (
                                             <tr className='bg-white  border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600'>
                                                 <td className='w-[3%] py-7'>
- <input onChange={getAllCheckedvalue}  checked={ ids.includes(item._id) }   type="checkbox" value={item._id} className='w-4 h-4' name="" id="" />
+                                                    <input onChange={getAllCheckedvalue} checked={ids.includes(item._id)} type="checkbox" value={item._id} className='w-4 h-4' name="" id="" />
 
 
 
@@ -107,22 +108,25 @@ export default function Viewmaterials() {
 
                                                 <td className='text-start'>  {item.materialOrder} </td>
                                                 <td className=''>
-                                                {item.materialStatus
-                                                    ?
-                                                    <button className=' bg-gradient-to-r from-green-400 via-green-500 to-green-600 py-1.5 text-white font-semibold px-5 rounded-sm'>Active</button>
-                                                    :
-                                                    <button className=' bg-gradient-to-r from-red-400 via-red-500 to-red-600 py-1.5 text-white font-semibold px-5 rounded-sm'>DeActive</button>
-                                                
-                                                
-                                                } 
-                                                   </td>
-                                                <td>
-                                                    
-                                                    <button className=' flex justify-center items-center text-white bg-blue-500 w-[40px] h-[40px] rounded-[50%]'>
-                                                    <MdEdit className='text-[18px]' />
+                                                    {item.materialStatus
+                                                        ?
+                                                        <button className=' bg-gradient-to-r from-green-400 via-green-500 to-green-600 py-1.5 text-white font-semibold px-5 rounded-sm'>Active</button>
+                                                        :
+                                                        <button className=' bg-gradient-to-r from-red-400 via-red-500 to-red-600 py-1.5 text-white font-semibold px-5 rounded-sm'>DeActive</button>
 
-                                                    
-                                                </button></td>
+
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <Link to={`/editmaterial/${item._id}`}>
+                                                        <button className=' flex justify-center items-center text-white bg-blue-500 w-[40px] h-[40px] rounded-[50%]'>
+                                                            <MdEdit className='text-[18px]' />
+
+
+                                                        </button>
+                                                    </Link>
+
+                                                </td>
                                             </tr>
                                         )
                                     })
