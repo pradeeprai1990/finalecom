@@ -1,7 +1,22 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Dropify from '../Common/Dropify'
+import axios from 'axios'
 
 export default function Addcategory() {
+  let pImage='https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/No_Preview_image_2.png/1200px-No_Preview_image_2.png?20200726064257'
+  let [preview,setPreview]=useState(pImage)
+
+  let apiBaseUrl=import.meta.env.VITE_APIBASEURL //http://localhost:8000/admin/
+  let saveCategory=(e)=>{
+    e.preventDefault()
+    let formValue= new FormData(e.target)  //Form tag
+    axios.post(`${apiBaseUrl}category/insert`,formValue)
+    .then((res)=>{
+      console.log(res.data)
+      e.target.reset()
+      setPreview(pImage)
+    })
+  }
 
   return (
     <>
@@ -11,18 +26,26 @@ export default function Addcategory() {
           <h3 className='text-[26px] font-semibold'>Add Category</h3>
         </div>
         <div>
-          <form action="" className='p-2'>
+          <form onSubmit={saveCategory} action="" className='p-2'>
             <div className='grid grid-cols-[32%_auto] gap-5'>
               <div className='' >
-                <label htmlFor="" className='text-[16px] font-semibold'>Category Image</label>
-                <Dropify />
+                  <img src={preview} className='h-52' alt="" />
+
+                  <input
+                    name="categoryImage"
+                    type="file"
+                    onChange={(e)=>{
+                      setPreview(URL.createObjectURL(e.target.files[0]))
+                    }}
+                    
+                />
               </div>
               <div>
                 <label htmlFor="" className='text-[16px] font-semibold'>Category Name</label>
-                <input type="text" placeholder='Enter Category Name' name="" id="" className='text-sm w-full border-2 shadow-sm border-gray-300 h-[40px] p-2 rounded-sm mb-5' />
+                <input  name="categoryName" type="text" placeholder='Enter Category Name'  id="" className='text-sm w-full border-2 shadow-sm border-gray-300 h-[40px] p-2 rounded-sm mb-5' />
 
                 <label htmlFor="" className='text-[16px] font-semibold'>Order</label>
-                <input type="number" placeholder='Order' name="" id="" className='text-sm w-full border-2 shadow-sm border-gray-300 h-[40px] p-2 rounded-sm mt-1' />
+                <input name="categoryOrder"  type="number" placeholder='Order' id="" className='text-sm w-full border-2 shadow-sm border-gray-300 h-[40px] p-2 rounded-sm mt-1' />
               </div>
             </div>
 
