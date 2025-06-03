@@ -3,7 +3,7 @@ import Dropify from '../Common/Dropify'
 import axios from 'axios'
 
 export default function Addcategory() {
-  let pImage='https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/No_Preview_image_2.png/1200px-No_Preview_image_2.png?20200726064257'
+  let pImage=import.meta.env.VITE_PIMAGE
   let [preview,setPreview]=useState(pImage)
 
   let apiBaseUrl=import.meta.env.VITE_APIBASEURL //http://localhost:8000/admin/

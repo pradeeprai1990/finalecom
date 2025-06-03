@@ -2,6 +2,7 @@ import React from 'react'
 import { FaFilter } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 export default function Viewcolor() {
+  
     return (
         <>
             <section className='mt-5 max-w-full rounded-md  ' style={{ border: "1px solid #ccc" }} id='userForm'>

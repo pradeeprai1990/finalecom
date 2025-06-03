@@ -36,4 +36,18 @@ let categoryInsert=async (req,res)=>{
   
 }
 
-module.exports={categoryInsert}
+
+let categoryView=async (req,res)=>{
+
+    let data=await categoryModel.find()
+    let obj={
+        status:1,
+        mgs:"material View",
+        staticPath:process.env.CATEGORYIMAGEPATH,
+        data
+        
+    }
+    res.send(obj)
+}
+
+module.exports={categoryInsert,categoryView}

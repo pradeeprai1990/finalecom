@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import 'dropify/dist/css/dropify.min.css';
 import 'dropify/dist/js/dropify.min.js';
+import 'react-responsive-pagination/themes/classic-light-dark.css';
 import $ from 'jquery';
 import Dashboard from './Pages/Dashboard.jsx'
 import { BrowserRouter, Route, Routes } from 'react-router'

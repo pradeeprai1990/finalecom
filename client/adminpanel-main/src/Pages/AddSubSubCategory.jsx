@@ -13,7 +13,7 @@ export default function AddSubSubCategory() {
                         <div className='grid grid-cols-[35%_auto] gap-5'>
                             <div className=''>
                                 <label htmlFor="" className='text-[16px] font-semibold'>Category Image</label>
-                                <Dropify/>
+                                
                             </div>
                             <div>
                                 <label htmlFor="" className='text-[16px] font-semibold'>Parent Category Name</label>

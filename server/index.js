@@ -9,7 +9,8 @@ require("dotenv").config()
 
 app.use("/admin",adminRoutes) //http://localhost:8000/admin
 
-
+app.use("/uploads/category",express.static("uploads/category"))
+//Folder Allow Path Frontend  
 
 
 mongoose.connect(`mongodb://127.0.0.1:27017/ecomfurniture`)
