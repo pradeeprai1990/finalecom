@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react'
-import { Link, Outlet } from 'react-router'
+import React, { useContext, useEffect, useState } from 'react'
+import { Link, Outlet, useNavigate } from 'react-router'
 import { RiDashboard2Fill } from "react-icons/ri";
 import { RiArrowDropUpLine, RiArrowDropDownLine } from "react-icons/ri";
 import { FaUser } from "react-icons/fa";
@@ -25,6 +25,7 @@ import { dropDownData } from '../Data/DropDownList';
 import { IoMdContact } from "react-icons/io";
 import { HiOutlineOfficeBuilding } from "react-icons/hi";
 import { FaLock } from "react-icons/fa";
+import { loginContext } from '../Context/MainContext';
 export default function Home() {
 
     // let [innerItems, setinnerItems] = useState(false)
@@ -48,6 +49,14 @@ export default function Home() {
 
 
     let [dashBoradMenu, setdashBoradMenu] = useState(false)
+
+    let { adminID, setAdminID } = useContext(loginContext)
+    let navigate = useNavigate()
+    useEffect(() => {
+        if (adminID == '') {
+            navigate('/')  //Login page
+        }
+    }, [adminID])
 
     return (
         <section className='max-w-full' id='dashboard'>
@@ -73,7 +82,7 @@ export default function Home() {
 
                                         let { id, title, icon, innerIcon, innerTitle, link1, link2, innerTitle2 } = value
 
-                                      
+
                                         return (
                                             <div className='maniItems'>
                                                 <li className='flex items-center gap-2 cursor-pointer  hover:bg:rounded-2xl py-2 text-black font-medium lg:text-lg sm:text-sm' >
@@ -312,7 +321,7 @@ export default function Home() {
                                             <Link to={'/company-profile'} className='flex items-center font-semibold gap-2'><HiOutlineOfficeBuilding className='text-lg' />Company Profile</Link>
                                         </li>
                                         <li className='p-2 border-b-1 border-gray-200 hover:text-blue-600 hover:bg-gray-100'>
-                                            <Link className='flex items-center font-semibold gap-2'><FaLock className='text-lg' />Logout</Link>
+                                            <button onClick={() => setAdminID('')} className='flex items-center font-semibold gap-2'><FaLock className='text-lg' />Logout</button>
                                         </li>
                                     </ul>
                                 </nav>

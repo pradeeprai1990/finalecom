@@ -2,7 +2,8 @@ let express=require("express");
 let mongoose=require("mongoose")
 const { adminRoutes } = require("./App/routes/admin/adminRoutes");
 let app=express();
-let cors=require("cors")
+let cors=require("cors");
+const { adminModel } = require("./App/models/adminModel");
 app.use(cors())
 app.use(express.json())
 require("dotenv").config()
@@ -14,7 +15,19 @@ app.use("/uploads/category",express.static("uploads/category"))
 
 
 mongoose.connect(`mongodb://127.0.0.1:27017/ecomfurniture`)
-.then((res)=>{
+.then(  async (res)=>{
+
+   let checkAdmin = await adminModel.find() //[] ==0
+
+   if(checkAdmin.length==0){ //True
+        adminModel.insertOne(
+            {
+                adminEmail:process.env.ADMINEMAIL,
+                adminPassword:process.env.ADMINPASSWORD
+            }
+        )
+   }
+
     console.log("DB Connect")
     app.listen(process.env.PORT)
 
