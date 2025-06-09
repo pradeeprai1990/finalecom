@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useContext, useEffect } from 'react'
-import { useNavigate } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { loginContext } from '../Context/MainContext'
 
 export default function Login() {
@@ -58,6 +58,10 @@ export default function Login() {
 
                             <label htmlFor="" className='block mb-2 text-sm font-medium text-gray-900'>Password</label>
                             <input type="password" name='password' className='bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 my-3' placeholder='Enter Password' required/>
+
+                            <div className="flex justify-end mb-4">
+                                <Link to={'/forgot-password'} className="text-sm text-blue-600 hover:text-blue-800">Forgot password?</Link>
+                            </div>
 
                             <button type='submit' className='w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-5 cursor-pointer' >Sign In</button>
                         </form>

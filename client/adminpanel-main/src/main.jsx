@@ -40,12 +40,14 @@ import Profile from './Pages/Profile.jsx';
 import CompnayProfile from './Pages/CompnayProfile.jsx';
 import Login from './Pages/Login.jsx';
 import MainContext from './Context/MainContext.jsx';
+import ForgotPassword from './Pages/ForgotPassword.jsx';
 
 createRoot(document.getElementById('root')).render(
   <MainContext>
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Login />}/> 
+        <Route path='/forgot-password' element={<ForgotPassword />}/> 
         <Route path='/' element={<Home />}>
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/contact-enquiry' element={<Contactenquiry />} />
