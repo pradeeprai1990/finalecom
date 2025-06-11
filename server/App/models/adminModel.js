@@ -1,5 +1,6 @@
 let mongoose=require("mongoose")
 let adminSchema= new mongoose.Schema({
+    adminName:String,
     adminEmail:{
         type:String,
         unique:true,
@@ -9,6 +10,8 @@ let adminSchema= new mongoose.Schema({
        
     },
     adminPassword:String,
+    adminPhone:String,
+    adminImage:String,
     
 })
 

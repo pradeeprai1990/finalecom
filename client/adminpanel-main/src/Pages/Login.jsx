@@ -53,7 +53,8 @@ export default function Login() {
                     <h2 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl'>Sign in to your account</h2>
                     <div className='w-full my-5' id='signInForm'>
                         <form action="" onSubmit={loginAdmin}>
-                            <label htmlFor="" className='block mb-2 text-sm font-medium text-gray-900'>Email</label>
+                            <label htmlFor="" className='block mb-2 text-sm font-medium text-gray-900'>Email Id</label>
+                            <br/>
                             <input type="email" name='email' className='bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 my-3' required placeholder='Enter Email' />
 
                             <label htmlFor="" className='block mb-2 text-sm font-medium text-gray-900'>Password</label>

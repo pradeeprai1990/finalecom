@@ -70,4 +70,26 @@ let resetPassword=async (req,res)=>{
     res.send({status:1,msg:"reset your password successfully."})
 
 }
-module.exports={adminLogin,forgotSendOTP,verifyOTP,resetPassword}
+
+
+let changePassword=async (req,res)=>{
+    let {currentPassword,newPassword,adminID}=req.body;
+    let admin=await adminModel.findOne({adminPassword:currentPassword,_id:adminID})
+    if(admin){
+
+        if(currentPassword!=newPassword){
+            let updateRes=await adminModel.updateOne({_id:adminID},{$set:{
+                adminPassword:newPassword
+            }})
+            res.send({status:1,msg:"Password change successfully."})
+        }
+        else{
+            res.send({status:0,msg:"Old Password or New  password Change."})   
+        }
+     
+    }
+    else{
+        res.send({status:0,msg:"Invalid Old Password"})
+    }
+}
+module.exports={adminLogin,forgotSendOTP,verifyOTP,resetPassword,changePassword}

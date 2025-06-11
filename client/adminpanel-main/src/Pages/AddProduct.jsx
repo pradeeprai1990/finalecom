@@ -1,10 +1,65 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Dropify from '../Common/Dropify'
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
+import axios from 'axios';
 export default function AddProduct() {
+
+    let [parentCatList,setParentCatList]=useState([])
+    let [subCatList,setSubCatList]=useState([])
+    let [colorList,setColorList]=useState([])
+    let [meterialList,setMeterialList]=useState([])
+
+
+    let apiBaseUrl=import.meta.env.VITE_APIBASEURL //http://localhost:8000/admin/
+    let getParentcategory=()=>{
+        axios.get(`${apiBaseUrl}product/parent-category`)
+        .then((res)=>res.data)
+        .then((finalRes)=>{
+            setParentCatList(finalRes.data)
+        })
+    }
+
+    let getColor=()=>{
+        axios.get(`${apiBaseUrl}product/product-color`)
+        .then((res)=>res.data)
+        .then((finalRes)=>{
+            setColorList(finalRes.data)
+        })
+    }
+
+    let getMeterial=()=>{
+        axios.get(`${apiBaseUrl}product/product-meterial`)
+        .then((res)=>res.data)
+        .then((finalRes)=>{
+            setMeterialList(finalRes.data)
+        })
+    }
+
+
+    let getSubcategory=(id)=>{
+        axios.get(`${apiBaseUrl}product/sub-category/${id}`)
+        .then((res)=>res.data)
+        .then((finalRes)=>{
+            setSubCatList(finalRes.data)
+        })
+    }
+
+
+
+
+
     const editorRef = useRef(null);
+
+
+
+
     useEffect(() => {
+
+        getParentcategory()
+        getColor()
+        getMeterial()
+
         new Quill(editorRef.current, {
             theme: 'snow',
         });
@@ -44,21 +99,19 @@ export default function AddProduct() {
                                 <label htmlFor="" className='text-[16px] font-semibold'>Select Sub Category </label>
                                 <br />
                                 <select name="" id="" className='w-full text-sm  border-2 shadow-sm border-gray-300 h-[40px] p-2 rounded-sm mb-5'>
-                                    <option value="">Select Category</option>
-                                    <option value="">Mobile Phones</option>
-                                    <option value="">Leptops</option>
-                                    <option value="">Men's Wear</option>
-                                    <option value="">Women's Wear</option>
+                                    <option value="">Select Sub Category</option>
+                                    {
+                                        subCatList.map((items,index)=>  <option key={index} value={items._id}> {items.subcategoryName} </option>)
+                                    }
                                 </select>
 
                                 <label htmlFor="" className='text-[16px] font-semibold'>Select Meterial</label>
                                 <br />
                                 <select name="" id="" className='w-full text-sm  border-2 shadow-sm border-gray-300 h-[40px] p-2 rounded-sm mb-5'>
                                     <option value="">Nothing Selected</option>
-                                    <option value="">Neem</option>
-                                    <option value="">Babbul</option>
-                                    <option value="">Neem</option>
-                                    <option value="">Babbul</option>
+                                    {
+                                         meterialList.map((items,index)=>  <option key={index} value={items._id}> {items.materialName} </option>)
+                                    }
                                 </select>
 
                                 <label htmlFor="" className='text-[16px] font-semibold'>Select Product Type</label>
@@ -90,12 +143,13 @@ export default function AddProduct() {
                             <div>
                                 <label htmlFor="" className='text-[16px] font-semibold'>Select Parent Category</label>
                                 <br />
-                                <select name="" id="" className='w-full text-sm  border-2 shadow-sm border-gray-300 h-[40px] p-2 rounded-sm mb-5'>
-                                    <option value="">Nothing Selected</option>
-                                    <option value="">Mobile Phones</option>
-                                    <option value="">Leptops</option>
-                                    <option value="">Men's Wear</option>
-                                    <option value="">Women's Wear</option>
+                                <select onChange={(e)=>getSubcategory(e.target.value)}  id="" className='w-full text-sm  border-2 shadow-sm border-gray-300 h-[40px] p-2 rounded-sm mb-5'>
+                                   
+                                    <option value="">Select Category</option>
+                                    {
+                                        parentCatList.map((items,index)=>  <option key={index} value={items._id}> {items.categoryName} </option>)
+                                    }
+                                  
                                 </select>
 
                                 <label htmlFor="" className='text-[16px] font-semibold'>Select Sub Sub Category</label>
@@ -112,9 +166,9 @@ export default function AddProduct() {
                                 <br />
                                 <select name="" id="" className='w-full text-sm  border-2 shadow-sm border-gray-300 h-[40px] p-2 rounded-sm mb-5'>
                                     <option value="">Nothing Selected</option>
-                                    <option value="">Red</option>
-                                    <option value="">Green</option>
-                                    <option value="">Blue</option>
+                                    {
+                                        colorList.map((items,index)=>  <option key={index} value={items._id}> {items.colorName} </option>)
+                                    }
                                 </select>
 
                                 <label htmlFor="" className='text-[16px] font-semibold'>Is Best Selling</label>

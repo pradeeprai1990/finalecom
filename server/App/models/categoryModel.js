@@ -13,5 +13,12 @@ let categorySchema= new mongoose.Schema({
     categoryStatus:Boolean
 })
 
+// Virtual field to get all subcategories
+categorySchema.virtual('subcategory', {
+    ref: 'subcategory',
+    localField: '_id',
+    foreignField: 'parentCategory'
+})
+
 let categoryModel=mongoose.model("category",categorySchema)
 module.exports={categoryModel}
