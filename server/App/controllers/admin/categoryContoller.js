@@ -1,11 +1,13 @@
+const { default: slugify } = require("slugify")
 const { categoryModel } = require("../../models/categoryModel")
 
 let categoryInsert=async (req,res)=>{
 
-    let {categoryName,categoryOrder}=req.body
+    let {categoryName,categoryOrder}=req.body //MEN
     let obj={
         categoryName,
-        categoryOrder
+        categoryOrder,
+        // slug:slugify(categoryName, { lower: true }) //men
     }
 
     if(req.file){

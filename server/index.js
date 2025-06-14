@@ -4,12 +4,13 @@ const { adminRoutes } = require("./App/routes/admin/adminRoutes");
 let app=express();
 let cors=require("cors");
 const { adminModel } = require("./App/models/adminModel");
+const { webRoutes } = require("./App/routes/web/webRoutes");
 app.use(cors())
 app.use(express.json())
 require("dotenv").config()
 
 app.use("/admin",adminRoutes) //http://localhost:8000/admin
-
+app.use("/web",webRoutes)  //http://localhost:8000/web
 app.use("/uploads/category",express.static("uploads/category"))
 //Folder Allow Path Frontend  
 

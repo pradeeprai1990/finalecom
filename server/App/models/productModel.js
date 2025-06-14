@@ -24,9 +24,9 @@ let productSchema= new mongoose.Schema({
     productActualPrice:Number,
     productsalePrice:Number,
     productStocks:Number,
-    productImage:String,
-    productBackimage:String,
-    productGallery:Array,
+    productImage:String, //single name
+    productBackimage:String,//single name
+    productGallery:Array, //[ multipleName ]
     productDescription:String,
     productOrder:Number,
     productStatus:Boolean
