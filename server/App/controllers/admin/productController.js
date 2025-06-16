@@ -40,6 +40,39 @@ let productInsert =async (req, res) => {
 
 }
 
+
+let getProducts=async (req,res)=>{
+    let data=await productModel.find()
+    .populate('parentCategory','categoryName')
+    .populate('subCategory','subcategoryName')
+    .populate('subSubCategory','subSubcategoryName')
+    .populate('productColor','colorName')
+    .populate('productMeterial','materialName')
+    let obj={
+        status:1,
+        staticPath:process.env.PRODUCTIMAGEPATH,
+        data
+        
+    }
+    res.send(obj)
+}
+
+let getsingleProducts=async (req,res)=>{
+    let {id}=req.params
+    let data=await productModel.findOne({_id:id})
+    .populate('parentCategory','categoryName')
+    .populate('subCategory','subcategoryName')
+    .populate('subSubCategory','subSubcategoryName')
+    .populate('productColor','colorName')
+    .populate('productMeterial','materialName')
+    let obj={
+        status:1,
+        data
+        
+    }
+    res.send(obj)
+}
+
 let parentCategory = async (req, res) => {
     let data = await categoryModel.find().select("categoryName")
     let obj = {
@@ -95,4 +128,4 @@ let getMeterial = async (req, res) => {
     }
     res.send(obj)
 }
-module.exports = { productInsert, parentCategory, subCategory, getColor, getMeterial, subSubCategory }
+module.exports = {getProducts,getsingleProducts, productInsert, parentCategory, subCategory, getColor, getMeterial, subSubCategory }

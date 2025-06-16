@@ -12,6 +12,7 @@ require("dotenv").config()
 app.use("/admin",adminRoutes) //http://localhost:8000/admin
 app.use("/web",webRoutes)  //http://localhost:8000/web
 app.use("/uploads/category",express.static("uploads/category"))
+app.use("/uploads/product",express.static("uploads/product"))
 //Folder Allow Path Frontend  
 
 
