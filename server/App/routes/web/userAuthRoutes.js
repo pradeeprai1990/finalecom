@@ -1,8 +1,10 @@
 let express=require("express");
-const { register } = require("../../controllers/web/userAuthController");
+const { register, login } = require("../../controllers/web/userAuthController");
+const multer = require("multer");
 
 let userauthRoutes=express.Router();
-
-userauthRoutes.post('/regsiter',register)
+let uploads=multer()
+userauthRoutes.post('/regsiter',uploads.none() ,register)
+userauthRoutes.post('/login',uploads.none() ,login)
 
 module.exports={userauthRoutes}

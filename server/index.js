@@ -15,7 +15,7 @@ app.use("/uploads/category",express.static("uploads/category"))
 app.use("/uploads/product",express.static("uploads/product"))
 //Folder Allow Path Frontend  
 
-
+//Url Change
 mongoose.connect(`mongodb://127.0.0.1:27017/ecomfurniture`)
 .then(  async (res)=>{
 
